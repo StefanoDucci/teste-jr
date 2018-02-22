@@ -38,22 +38,28 @@ class VendasController extends ApiController
 
     public function store()
     {
-        if ( ! request()->get('name') or ! request()->get('email') or ! request()->get('comissao'))
+        if ( ! request()->get('nome') or ! request()->get('email') or ! request()->get('valor_venda'))
         {
           return $this->setStatusCode(422)->respondWithError('Falha na validação dos parâmetros da venda.');
         }
 
-        $param = [
-          'name' => request()->get('name'),
+        // $param = [
+        //   'name' => request()->get('name'),
+        //   'email' => request()->get('email'),
+        //   'comissao' => request()->get('comissao') * 0.085
+        // ];
+
+        Venda::create(request()->all());
+
+        return [
+          'nome' => request()->get('nome'),
           'email' => request()->get('email'),
-          'comissao' => request()->get('comissao') * 0.085
+          'comissao' => request()->get('valor_venda') * 0.085
         ];
 
-        Venda::create($param);
-
-        return $this->setStatusCode(201)->respond([
-            'message' => 'Venda registrada com sucesso.'
-        ]);
+        // return $this->setStatusCode(201)->respond([
+        //     'message' => 'Venda registrada com sucesso.'
+        // ]);
 
     }
 
@@ -66,9 +72,9 @@ class VendasController extends ApiController
     private function transform($venda)
     {
         return [
-            'name' => $venda['name'],
+            'nome' => $venda['nome'],
             'email' => $venda['email'],
-            'comissao' => (float) $venda['comissao']
+            'comissao' => (float) $venda['valor_venda']
         ];
     }
 

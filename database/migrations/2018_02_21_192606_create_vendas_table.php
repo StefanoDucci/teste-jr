@@ -15,9 +15,9 @@ class CreateVendasTable extends Migration
     {
         Schema::create('vendas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('nome');
             $table->string('email');
-            $table->float('comissao', 8, 2);
+            $table->float('valor_venda', 8, 2);
             $table->timestamps();
         });
     }
