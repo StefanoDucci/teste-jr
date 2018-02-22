@@ -43,12 +43,6 @@ class VendasController extends ApiController
           return $this->setStatusCode(422)->respondWithError('Falha na validação dos parâmetros da venda.');
         }
 
-        // $param = [
-        //   'name' => request()->get('name'),
-        //   'email' => request()->get('email'),
-        //   'comissao' => request()->get('comissao') * 0.085
-        // ];
-
         Venda::create(request()->all());
 
         return [
@@ -57,9 +51,6 @@ class VendasController extends ApiController
           'comissao' => request()->get('valor_venda') * 0.085
         ];
 
-        // return $this->setStatusCode(201)->respond([
-        //     'message' => 'Venda registrada com sucesso.'
-        // ]);
 
     }
 
