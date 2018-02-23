@@ -2,6 +2,10 @@
 
 use Faker\Generator as Faker;
 
+/**
+ * [Cria o registro de vendas no banco de dados]
+ * @var [Objeto da classe Faker]
+ */
 $factory->define(App\Venda::class, function (Faker $faker) {
     return [
         'nome' => $faker->name,
