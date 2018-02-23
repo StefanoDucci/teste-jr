@@ -21,7 +21,6 @@ class VendasController extends ApiController
         return response()->json([
             'data' => $this->transformCollection($vendas)
         ], 200);
-
     }
 
     /**
@@ -33,37 +32,36 @@ class VendasController extends ApiController
     public function show($id)
     {
 
-      $venda = Venda::find($id);
+        $venda = Venda::find($id);
 
-      if ( ! $venda)
-      {
-          return $this->respondNotFound('Esta venda não existe.');
-      }
+        if (! $venda) {
+            return $this->respondNotFound('Esta venda não existe.');
+        }
 
-      return response()->json([
+        return response()->json([
           'data' => $this->transform($venda)
-      ], 200);
+        ], 200);
     }
 
     /**
      * [store description]
      * @method store
      * @param  Request $request [Dados da requisão]
-     * @return array           [Array de erro ou array dos dados da inserção com a comissão sendo 8.5% do valor da venda cadastrada]
+     * @return array  [Array de erro ou array dos dados da inserção
+     *                  com a comissão sendo 8.5% do valor da venda cadastrada]
      */
     public function store(Request $request)
     {
 
-      $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
         'nome' => 'required:string',
         'email' => 'required:email',
         'valor_venda' => 'required:numeric'
-      ]);
+        ]);
 
-      if ($validator->fails())
-      {
-        return $this->respondAuthFailed('Ocorreu um erro durante a validação dos dados.');
-      }
+        if ($validator->fails()) {
+            return $this->respondAuthFailed('Ocorreu um erro durante a validação dos dados.');
+        }
 
         Venda::create(request()->all());
 
@@ -99,5 +97,4 @@ class VendasController extends ApiController
             'comissao' => (float) $venda['valor_venda']
         ];
     }
-
 }

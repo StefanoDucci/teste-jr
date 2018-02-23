@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-class ApiController extends Controller {
+class ApiController extends Controller
+{
 
     protected $statusCode = 200;
 
@@ -46,7 +47,7 @@ class ApiController extends Controller {
      */
     public function respondAuthFailed($message = 'Invalid Data')
     {
-      return $this->setStatusCode(422)->respondWithError($message);
+        return $this->setStatusCode(422)->respondWithError($message);
     }
 
     /**
@@ -76,5 +77,4 @@ class ApiController extends Controller {
             ]
         ]);
     }
-
 }

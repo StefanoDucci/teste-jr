@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Venda extends Model
 {
-  protected $fillable = [
-      'nome', 'email', 'valor_venda'
-  ];
-
+    protected $fillable = [
+        'nome', 'email', 'valor_venda'
+    ];
 }
