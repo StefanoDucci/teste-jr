@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Venda;
+use Validator;
 
 class VendasController extends ApiController
 {
@@ -27,7 +28,7 @@ class VendasController extends ApiController
      * [Metodo de retorno de apenas um único registro do banco de dados]
      * @method show
      * @param  [inteiro] $id [Identificador do registro no banco de dados]
-     * @return [array]
+     * @return array
      */
     public function show($id)
     {
@@ -45,32 +46,39 @@ class VendasController extends ApiController
     }
 
     /**
-     * [Metodo para armazenar um novo registro no bando de dados]
+     * [store description]
      * @method store
-     * @return [array] [Dados: nome, email e comissão(8.5% do valor de entrada do valor da venda)]
+     * @param  Request $request [Dados da requisão]
+     * @return array           [Array de erro ou array dos dados da inserção com a comissão sendo 8.5% do valor da venda cadastrada]
      */
-    public function store()
+    public function store(Request $request)
     {
-      $this->validate(request(),[
-        'nome' => 'required',
-        'email' => 'required',
-        'valor_venda' => 'required'
+
+      $validator = Validator::make($request->all(), [
+        'nome' => 'required:string',
+        'email' => 'required:email',
+        'valor_venda' => 'required:numeric'
       ]);
+
+      if ($validator->fails())
+      {
+        return $this->respondAuthFailed('Ocorreu um erro durante a validação dos dados.');
+      }
 
         Venda::create(request()->all());
 
         return [
-          'nome' => request()->get('nome'),
-          'email' => request()->get('email'),
-          'comissao' => request()->get('valor_venda') * 0.085
+          'nome' => $request->get('nome'),
+          'email' => $request->get('email'),
+          'comissao' => $request->get('valor_venda') * 0.085
         ];
     }
 
     /**
      * [Metodo que varre um array de registros do banco de dados e submete cada um ao metodo transform]
      * @method transformCollection
-     * @param  [array]              $vendas [Um array contendo um registro vindo do banco de dados]
-     * @return [array]                      [Um array onde cada indice do array de entrada passa pelo metodo transform]
+     * @param  array            $vendas [Um array contendo um registro vindo do banco de dados]
+     * @return array                      [Um array onde cada indice do array de entrada passa pelo metodo transform]
      */
     private function transformCollection($vendas)
     {
@@ -80,8 +88,8 @@ class VendasController extends ApiController
     /**
      * [Metodo que altera o tipo de dado que será enviado para a requisição]
      * @method transform
-     * @param  [type]    $venda [description]
-     * @return [type]           [description]
+     * @param  array    $venda [Array dos registros de uma busca no banco de dados]
+     * @return array           [Formatação dos tipos dos dados enviados para a requisição]
      */
     private function transform($venda)
     {
