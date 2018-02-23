@@ -1,4 +1,5 @@
 <?php
+namespace database;
 
 use Illuminate\Database\Seeder;
 use VendasTableSeeder;
